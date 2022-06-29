@@ -1,5 +1,6 @@
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
+const colors = document.getElementsByClassName("jsColor");
 
 canvas.width=700;
 canvas.height=700;
@@ -25,12 +26,12 @@ function onMouseMove(event){
     const x = event.offsetX;
     const y = event.offsetY;
     if(!painting){
-        console.log("create path", x, y);
+        //console.log("create path", x, y);
         ctx.beginPath();
         ctx.moveTo(x,y);
 
     }else{
-        console.log("create line", x, y);
+       // console.log("create line", x, y);
         ctx.lineTo(x,y);
         ctx.stroke();
         //path를 만들고 휙을그음
@@ -44,6 +45,13 @@ function onMouseUp(event){
     //painting = false;
     stopPainting(); 
 }
+function handleColorClick(event){
+    console.log(event.target.style);
+    const color=event.target.style.backgroundColor;
+    ctx.strokeStyle = color;
+    ctx.fillStyle = color;
+}
+
 if(canvas){
     canvas.addEventListener("mousemove", onMouseMove);
     //마우스가 움직이는 위치 x,y값으로 path계산?
@@ -54,3 +62,7 @@ if(canvas){
     canvas.addEventListener("mouseleave", stopPainting);
     //마우스가 캔버스를 벗어났을때
 }
+//console.log(Array.from(colors));
+Array.from(colors).forEach(color => 
+    color.addEventListener("click", handleColorClick)
+    );
